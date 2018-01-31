@@ -1,4 +1,4 @@
-namespace Shsict.Peccacy.Service
+namespace Shsict.Peccacy.Service.Scheduler
 {
     /// <summary>
     ///     Interface for defining an schedule.

@@ -1,10 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Shsict.Peccacy.Service.Model;
 
-namespace Shsict.Peccacy.Service
+namespace Shsict.Peccacy.Service.Scheduler
 {
-    [Table("Peccacy_Schedule")]
-    public class Schedule
+    [Table("PECCACY_SCHEDULE")]
+    public class Schedule : Entity<int>
     {
         private ISchedule _ischedule;
 
@@ -49,22 +50,22 @@ namespace Shsict.Peccacy.Service
         //    }));
         //}
 
-        public override void Inital()
-        {
-            if (Minutes > 0 & Minutes < ScheduleManager.TimerMinutesInterval)
-            {
-                Minutes = ScheduleManager.TimerMinutesInterval;
-            }
+        //public override void Inital()
+        //{
+        //    if (Minutes > 0 & Minutes < ScheduleManager.TimerMinutesInterval)
+        //    {
+        //        Minutes = ScheduleManager.TimerMinutesInterval;
+        //    }
 
-            if (DailyTime >= 0)
-            {
-                ExecuteTimeInfo = $"Run at {DailyTime / 60}:{DailyTime % 60}";
-            }
-            else
-            {
-                ExecuteTimeInfo = $"Run By {Minutes} mins";
-            }
-        }
+        //    if (DailyTime >= 0)
+        //    {
+        //        ExecuteTimeInfo = $"Run at {DailyTime / 60}:{DailyTime % 60}";
+        //    }
+        //    else
+        //    {
+        //        ExecuteTimeInfo = $"Run By {Minutes} mins";
+        //    }
+        //}
 
         //public Schedule Single(object key)
         //{
@@ -172,11 +173,13 @@ namespace Shsict.Peccacy.Service
         }
 
         #region Members and Properties
+        [Column("SCHEDULEKEY")]
         public string ScheduleKey { get; set; }
 
         /// <summary>
         ///     The Type of class which implements IScheduler
         /// </summary>
+        [Column("SCHEDULETYPE")]
         public string ScheduleType { get; set; }
 
         /// <summary>
@@ -184,17 +187,20 @@ namespace Shsict.Peccacy.Service
         ///     executed once per-day and as close to the specified
         ///     time as possible. Example times: 0 = midnight, 27 = 12:27 am, 720 = Noon
         /// </summary>
+        [Column("DAILYTIME")]
         public int DailyTime { get; set; }
 
         /// <summary>
         ///     The scheduled event interval time in minutes. If TimeOfDay has a value >= 0, Minutes will be ignored.
         ///     This values should not be less than the Timer interval.
         /// </summary>
+        [Column("MINUTES")]
         public int Minutes { get; set; }
 
         /// <summary>
         ///     Last Date and Time this scheduler was processed/completed.
         /// </summary>
+        [Column("LASTCOMPLETEDTIME")]
         public DateTime LastCompletedTime { get; set; }
 
         //public DateTime LastCompletedTime
@@ -210,12 +216,16 @@ namespace Shsict.Peccacy.Service
         //internal testing variable
         //bool dateWasSet = false;
 
+        [Column("ISSYSTEM")]
         public bool IsSystem { get; set; }
 
+        [Column("ISACTIVE")]
         public bool IsActive { get; set; }
 
+        [Column("REMARK")]
         public string Remark { get; set; }
 
+        [NotMapped]
         public string ExecuteTimeInfo { get; set; }
 
         #endregion

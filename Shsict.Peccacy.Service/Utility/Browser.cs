@@ -2,7 +2,7 @@
 using System.Text;
 using System.Web;
 
-namespace Arsenalcn.Core.Utility
+namespace Shsict.Peccacy.Service.Utility
 {
     public static class BrowserInfo
     {

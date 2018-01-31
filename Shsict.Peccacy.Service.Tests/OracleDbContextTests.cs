@@ -1,10 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shsict.Peccacy.Service;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shsict.Peccacy.Service.DbHelper;
+using Shsict.Peccacy.Service.Model;
 
 namespace Shsict.Peccacy.Service.Tests
 {
@@ -28,10 +26,17 @@ namespace Shsict.Peccacy.Service.Tests
 
                     ctx.SaveChanges();
                 }
+                else
+                {
+                    var c = new Config() { ConfigKey = "test", ConfigValue = "123456"};
+
+                    ctx.Configs.Add(c);
+
+                    ctx.SaveChanges();
+                }
+
+                IList list = ctx.Configs.ToList();
             }
-
-
-            Assert.Fail();
         }
     }
 }

@@ -76,6 +76,7 @@
     <Compile Include="AccessDbContextTests.cs" />
     <Compile Include="OracleDbContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

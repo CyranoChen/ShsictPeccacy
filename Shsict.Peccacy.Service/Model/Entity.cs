@@ -1,10 +1,37 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
+using System.Web;
 
-namespace Arsenalcn.Core
+namespace Shsict.Peccacy.Service.Model
 {
-    public abstract class Entity<TKey> : Dao, IEntity where TKey : struct
+    public abstract class Entity<TKey> : IEntity where TKey : struct
     {
+        protected virtual string GenerateKey()
+        {
+            return KeyGenerator.Generate();
+        }
+
+        public override string ToString()
+        {
+            return Key;
+        }
+
+        private static class KeyGenerator
+        {
+            public static string Generate()
+            {
+                return Generate(Guid.NewGuid().ToString("D").Substring(24));
+            }
+
+            private static string Generate(string input)
+            {
+                Contract.Requires(!string.IsNullOrWhiteSpace(input));
+                return HttpUtility.UrlEncode(input.Replace(" ", "_").Replace("-", "_").Replace("&", "and"));
+            }
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -68,6 +95,16 @@ namespace Arsenalcn.Core
 
         private object _id;
 
+
+        [Required, StringLength(50), NotMapped]
+        public virtual string Key
+        {
+            get { return _key = _key ?? GenerateKey(); }
+            protected set { _key = value; }
+        }
+
+        private string _key;
+
         #endregion
     }
 
@@ -80,7 +117,5 @@ namespace Arsenalcn.Core
         ///     This is the identifier that should be exposed via the web, etc.
         /// </remarks>
         string Key { get; }
-
-        void Inital();
     }
 }

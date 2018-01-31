@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace Arsenalcn.Core.Utility
+namespace Shsict.Peccacy.Service.Utility
 {
     public static class IPLocation
     {

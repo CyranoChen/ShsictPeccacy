@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Arsenalcn.Core.Utility
+namespace Shsict.Peccacy.Service
 {
     public static class Encrypt
     {

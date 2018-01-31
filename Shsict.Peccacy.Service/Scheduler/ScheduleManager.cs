@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Threading;
+using Shsict.Peccacy.Service.DbHelper;
+using Shsict.Peccacy.Service.Extension;
 
-namespace Shsict.Peccacy.Service
+namespace Shsict.Peccacy.Service.Scheduler
 {
     /// <summary>
     ///     ScheduleManager is called from the EventHttpModule (or another means of scheduling a Timer). Its sole purpose
@@ -17,46 +19,50 @@ namespace Shsict.Peccacy.Service
 
         public static void Execute(string assembly = null)
         {
-            ILog log = new AppLog();
-            var logInfo = new LogInfo
-            {
-                MethodInstance = MethodBase.GetCurrentMethod(),
-                ThreadInstance = Thread.CurrentThread
-            };
+            //ILog log = new AppLog();
+            //var logInfo = new LogInfo
+            //{
+            //    MethodInstance = MethodBase.GetCurrentMethod(),
+            //    ThreadInstance = Thread.CurrentThread
+            //};
 
             try
             {
-                IRepository repo = new Repository();
-
-                // The application must run schedule task by it's own assembly name
-                var list = !string.IsNullOrEmpty(assembly)
-                    ? repo.All<Schedule>().FindAll(x => x.IsActive && x.ScheduleType.Contains(assembly))
-                    : repo.All<Schedule>().FindAll(x => x.IsActive);
-
-                if (list.Count > 0)
+                using (IRepository repo = new Repository())
                 {
-                    foreach (var s in list)
+                    // The application must run schedule task by it's own assembly name
+                    var list = !string.IsNullOrEmpty(assembly)
+                        ? repo.All<Schedule>().FindAll(x => x.IsActive && x.ScheduleType.Contains(assembly))
+                        : repo.All<Schedule>().FindAll(x => x.IsActive);
+
+                    if (list.Count > 0)
                     {
-                        if (s.ShouldExecute())
+                        foreach (var s in list)
                         {
-                            // Call this method BEFORE processing the ScheduledEvent. This will help protect against long running events 
-                            // being fired multiple times. Note, it is not absolute protection. App restarts will cause events to look like
-                            // they were completed, even if they were not. Again, ScheduledEvents are helpful...but not 100% reliable
+                            if (s.ShouldExecute())
+                            {
+                                // Call this method BEFORE processing the ScheduledEvent. This will help protect against long running events 
+                                // being fired multiple times. Note, it is not absolute protection. App restarts will cause events to look like
+                                // they were completed, even if they were not. Again, ScheduledEvents are helpful...but not 100% reliable
 
-                            var instance = s.IScheduleInstance;
-                            ManagedThreadPool.QueueUserWorkItem(instance.Execute);
+                                var instance = s.IScheduleInstance;
+                                ManagedThreadPool.QueueUserWorkItem(instance.Execute);
 
-                            s.LastCompletedTime = DateTime.Now;
-                            repo.Update(s, x => x.ScheduleKey == s.ScheduleKey);
+                                s.LastCompletedTime = DateTime.Now;
+                                //repo.Update(s, x => x.ScheduleKey == s.ScheduleKey);
 
-                            log.Debug($"ISchedule: {s.ScheduleType}", logInfo);
+                                //log.Debug($"ISchedule: {s.ScheduleType}", logInfo);
+                            }
                         }
+
+                        list.Update();
+
                     }
                 }
             }
             catch (Exception ex)
             {
-                log.Debug(ex, logInfo);
+                //log.Debug(ex, logInfo);
 
                 throw;
             }

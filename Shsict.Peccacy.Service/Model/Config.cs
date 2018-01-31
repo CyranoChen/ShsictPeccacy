@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
+using Shsict.Peccacy.Service.DbHelper;
 
-namespace Shsict.Peccacy.Service
+namespace Shsict.Peccacy.Service.Model
 {
     [Table("PECCACY_CONFIG")]
-    public class Config
+    public class Config : Entity<int>
     {
         public Config() { }
 
@@ -183,11 +183,6 @@ namespace Shsict.Peccacy.Service
 
         #region Members and Properties
 
-        //public ConfigSystem ConfigSystemInfo { get; set; }
-
-        //public string ConfigSystem { get; set; }
-
-        [Key]
         [Column("CONFIGKEY")]
         public string ConfigKey { get; set; }
 
@@ -196,9 +191,4 @@ namespace Shsict.Peccacy.Service
 
         #endregion
     }
-
-    //public enum ConfigSystem
-    //{
-    //    Peccacy
-    //}
 }

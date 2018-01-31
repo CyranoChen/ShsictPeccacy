@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Arsenalcn.Core.Utility
+namespace Shsict.Peccacy.Service.Utility
 {
     public class OSInfo
     {

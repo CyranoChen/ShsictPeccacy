@@ -1,4 +1,4 @@
-﻿namespace Arsenalcn.Core
+﻿namespace Shsict.Peccacy.Service.Utility
 {
     public class AssemblyInfo
     {

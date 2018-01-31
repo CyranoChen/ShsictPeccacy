@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace Arsenalcn.Core
+namespace Shsict.Peccacy.Service.Utility
 {
     public class RestClient
     {

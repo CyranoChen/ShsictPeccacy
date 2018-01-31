@@ -1,6 +1,8 @@
 ﻿using System.Data.Entity;
+using Shsict.Peccacy.Service.Model;
+using Shsict.Peccacy.Service.Scheduler;
 
-namespace Shsict.Peccacy.Service
+namespace Shsict.Peccacy.Service.DbHelper
 {
     /// <summary>
     /// OracleDbContext
@@ -23,9 +25,14 @@ namespace Shsict.Peccacy.Service
         public DbSet<Config> Configs { get; set; }
 
         /// <summary>
+        /// Scheduler
+        /// </summary>
+        public DbSet<Schedule> Schedulers { get; set; }
+
+        /// <summary>
         /// Log
         /// </summary>
-        public DbSet<Log> Logs { get; set; }
+        //public DbSet<Log> Logs { get; set; }
 
         /// <summary>
         /// OnModelCreating

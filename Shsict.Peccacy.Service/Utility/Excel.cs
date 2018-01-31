@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Arsenalcn.Core.Utility
+namespace Shsict.Peccacy.Service.Utility
 {
     public static class ExportUtl
     {

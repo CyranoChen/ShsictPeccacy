@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,12 +56,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Log.cs" />
-    <Compile Include="AccessDbContext.cs" />
-    <Compile Include="OracleDbContext.cs" />
+    <Compile Include="DbHelper\AccessHelper.cs" />
+    <Compile Include="DbHelper\IRepository.cs" />
+    <Compile Include="DbHelper\Repository.cs" />
+    <Compile Include="Extension\CollectionExtensions.cs" />
+    <Compile Include="Extension\RepositoryExtensions.cs" />
+    <Compile Include="Model\Entity.cs" />
+    <Compile Include="DbHelper\OracleDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Truck.cs" />
-    <Compile Include="Utility\Config.cs" />
+    <Compile Include="Scheduler\ISchedule.cs" />
+    <Compile Include="Scheduler\Schedule.cs" />
+    <Compile Include="Scheduler\ScheduleManager.cs" />
+    <Compile Include="Utility\Assembly.cs" />
+    <Compile Include="Utility\Browser.cs" />
+    <Compile Include="Model\Config.cs" />
+    <Compile Include="Utility\Encrypt.cs" />
+    <Compile Include="Utility\Excel.cs" />
+    <Compile Include="Utility\IP.cs" />
+    <Compile Include="Utility\OS.cs" />
+    <Compile Include="Utility\RestClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
