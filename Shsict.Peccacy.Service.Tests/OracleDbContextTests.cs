@@ -14,6 +14,13 @@ namespace Shsict.Peccacy.Service.Tests
         {
             using (var ctx = new OracleDbContext())
             {
+                var trucks = ctx.TruckCamRecords.ToList();
+                var sources = ctx.CameraSources.ToList();
+                var schedules = ctx.Schedules.ToList();
+            }
+
+            using (var ctx = new OracleDbContext())
+            {
                 var configs = ctx.Configs.ToList();
 
                 if (configs.Count > 0)
@@ -28,7 +35,7 @@ namespace Shsict.Peccacy.Service.Tests
                 }
                 else
                 {
-                    var c = new Config() { ConfigKey = "test", ConfigValue = "123456"};
+                    var c = new Config() { ConfigKey = "test", ConfigValue = "123456" };
 
                     ctx.Configs.Add(c);
 

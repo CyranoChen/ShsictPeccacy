@@ -14,10 +14,15 @@ namespace Shsict.Peccacy.Service.DbHelper
         /// </summary>
         public OracleDbContext() : base("DataDestination") { }
 
-        ///// <summary>
-        ///// Truck
-        ///// </summary>
-        //public DbSet<Truck> Truck { get; set; }
+        /// <summary>
+        /// TruckCamRecord
+        /// </summary>
+        public DbSet<TruckCamRecord> TruckCamRecords { get; set; }
+
+        /// <summary>
+        /// CameraSource
+        /// </summary>
+        public DbSet<CameraSource> CameraSources { get; set; }
 
         /// <summary>
         /// Config
@@ -25,9 +30,9 @@ namespace Shsict.Peccacy.Service.DbHelper
         public DbSet<Config> Configs { get; set; }
 
         /// <summary>
-        /// Scheduler
+        /// Schedule
         /// </summary>
-        public DbSet<Schedule> Schedulers { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
 
         /// <summary>
         /// Log

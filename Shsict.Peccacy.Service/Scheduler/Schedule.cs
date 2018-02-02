@@ -28,9 +28,9 @@ namespace Shsict.Peccacy.Service.Scheduler
 
         //    map.ForMember(d => d.ScheduleKey, opt => opt.MapFrom(s => s.GetValue("ScheduleKey").ToString()));
 
-        //    map.ForMember(d => d.Minutes, opt => opt.ResolveUsing(s =>
+        //    map.ForMember(d => d.Seconds, opt => opt.ResolveUsing(s =>
         //    {
-        //        var mins = (int) s.GetValue("Minutes");
+        //        var mins = (int) s.GetValue("Seconds");
         //        if (mins > 0 & mins < ScheduleManager.TimerMinutesInterval)
         //        {
         //            return ScheduleManager.TimerMinutesInterval;
@@ -46,15 +46,15 @@ namespace Shsict.Peccacy.Service.Scheduler
         //        {
         //            return $"Run at {dailyTime/60}:{dailyTime%60}";
         //        }
-        //        return $"Run By {s.GetValue("Minutes").ToString()} mins";
+        //        return $"Run By {s.GetValue("Seconds").ToString()} mins";
         //    }));
         //}
 
         //public override void Inital()
         //{
-        //    if (Minutes > 0 & Minutes < ScheduleManager.TimerMinutesInterval)
+        //    if (Seconds > 0 & Seconds < ScheduleManager.TimerMinutesInterval)
         //    {
-        //        Minutes = ScheduleManager.TimerMinutesInterval;
+        //        Seconds = ScheduleManager.TimerMinutesInterval;
         //    }
 
         //    if (DailyTime >= 0)
@@ -63,7 +63,7 @@ namespace Shsict.Peccacy.Service.Scheduler
         //    }
         //    else
         //    {
-        //        ExecuteTimeInfo = $"Run By {Minutes} mins";
+        //        ExecuteTimeInfo = $"Run By {Seconds} mins";
         //    }
         //}
 
@@ -103,7 +103,7 @@ namespace Shsict.Peccacy.Service.Scheduler
 
         //    var sql =
         //        $@"UPDATE {Repository.GetTableAttr<Schedule>().Name
-        //            } SET ScheduleType = @scheduleType, DailyTime = @dailyTime, Minutes = @minutes, 
+        //            } SET ScheduleType = @scheduleType, DailyTime = @dailyTime, Seconds = @minutes, 
         //                     LastCompletedTime = @lastCompletedTime, IsSystem = @isSystem, IsActive = @isActive, Remark = @remark 
         //                     WHERE ScheduleKey = @key";
 
@@ -111,7 +111,7 @@ namespace Shsict.Peccacy.Service.Scheduler
         //    {
         //        new SqlParameter("@scheduleType", ScheduleType),
         //        new SqlParameter("@dailyTime", DailyTime),
-        //        new SqlParameter("@minutes", Minutes),
+        //        new SqlParameter("@minutes", Seconds),
         //        new SqlParameter("@lastCompletedTime", LastCompletedTime),
         //        new SqlParameter("@isSystem", IsSystem),
         //        new SqlParameter("@isActive", IsActive),
@@ -157,7 +157,7 @@ namespace Shsict.Peccacy.Service.Scheduler
 
         public bool ShouldExecute()
         {
-            //If we have a TimeOfDay value, use it and ignore the Minutes interval
+            //If we have a TimeOfDay value, use it and ignore the Seconds interval
             if (DailyTime > -1)
             {
                 //Now
@@ -168,8 +168,8 @@ namespace Shsict.Peccacy.Service.Scheduler
                 return LastCompletedTime < dtCompare.AddMinutes(DailyTime) &&
                        dtCompare.AddMinutes(DailyTime) <= DateTime.Now;
             }
-            //Is the LastCompleted date + the Minutes interval less than now?
-            return LastCompletedTime.AddMinutes(Minutes) < DateTime.Now;
+            //Is the LastCompleted date + the Seconds interval less than now?
+            return LastCompletedTime.AddSeconds(Seconds) < DateTime.Now;
         }
 
         #region Members and Properties
@@ -191,11 +191,11 @@ namespace Shsict.Peccacy.Service.Scheduler
         public int DailyTime { get; set; }
 
         /// <summary>
-        ///     The scheduled event interval time in minutes. If TimeOfDay has a value >= 0, Minutes will be ignored.
+        ///     The scheduled event interval time in minutes. If TimeOfDay has a value >= 0, Seconds will be ignored.
         ///     This values should not be less than the Timer interval.
         /// </summary>
-        [Column("MINUTES")]
-        public int Minutes { get; set; }
+        [Column("SECONDS")]
+        public int Seconds { get; set; }
 
         /// <summary>
         ///     Last Date and Time this scheduler was processed/completed.
