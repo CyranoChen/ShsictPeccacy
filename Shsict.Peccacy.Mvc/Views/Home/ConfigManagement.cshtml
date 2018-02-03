@@ -1,16 +1,16 @@
-﻿@model Shsict.Peccacy.Mvc.Models.HomeModels.ConfigManagementDto
+﻿@model Shsict.Peccacy.Mvc.Models.ConsoleModels.ConfigListDto
 
 @section Styles {
-    <link rel="stylesheet" href="~/Content/DataTables/css/dataTables.bootstrap.min.css">
+    @Styles.Render("~/Content/css/jquery.datatables")
 }
 
 @section Scripts {
     <!-- DataTables -->
-    <script src="~/Scripts/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/datatables/dataTables.bootstrap.min.js"></script>
+    @Scripts.Render("~/bundles/jquery.datatables")
+
     <script type="text/javascript">
         $(function () {
-            $("#tblConfig").DataTable({
+            $("#tbl-datatable").DataTable({
                 "paging": false,
                 "lengthChange": false,
                 "searching": true,
@@ -39,7 +39,6 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> 管理控制台</a></li>
-            <li><a href="#">系统管理</a></li>
             <li class="active">配置管理</li>
         </ol>
     </section>

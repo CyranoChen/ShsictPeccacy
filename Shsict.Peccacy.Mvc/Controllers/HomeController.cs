@@ -26,7 +26,7 @@ namespace Shsict.Peccacy.Mvc.Controllers
         // GET: Console/ConfigManagement
         public ActionResult ConfigManagement()
         {
-            var model = new HomeModels.ConfigManagementDto();
+            var model = new ConsoleModels.ConfigListDto();
 
             using (IRepository repo = new Repository())
             {

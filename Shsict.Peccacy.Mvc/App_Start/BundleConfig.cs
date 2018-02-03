@@ -16,11 +16,12 @@ namespace Shsict.Peccacy.Mvc
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
-                "~/Scripts/bootstrap-datepicker.min.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/adminlte").Include(
                 "~/admin-lte/js/adminlte.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery.datatables").Include(
+                "~/Scripts/Datatables/jquery.dataTables.min.js",
+                "~/Scripts/Datatables/dataTables.bootstrap.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.min.css",
@@ -30,8 +31,8 @@ namespace Shsict.Peccacy.Mvc
                 "~/admin-lte/css/skins/_all-skins.min.css",
                 "~/Content/Site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/datepicker").Include(
-                "~/Content/bootstrap-datepicker3.min.css"));
+            bundles.Add(new StyleBundle("~/Content/css/jquery.datatables").Include(
+                "~/Content/DataTables/css/dataTables.bootstrap.min.css"));
         }
     }
 }

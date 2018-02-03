@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Shsict.Peccacy.Mvc.Models;
+using Shsict.Peccacy.Service.DbHelper;
+using Shsict.Peccacy.Service.Model;
 
 namespace Shsict.Peccacy.Mvc.Controllers
 {
@@ -11,7 +10,14 @@ namespace Shsict.Peccacy.Mvc.Controllers
         // GET: CameraSource
         public ActionResult Index()
         {
-            return View();
+            var model = new ConsoleModels.CameraSourceListDto();
+
+            using (IRepository repo = new Repository())
+            {
+                model.CameraSources = repo.All<CameraSource>();
+            }
+
+            return View(model);
         }
     }
 }

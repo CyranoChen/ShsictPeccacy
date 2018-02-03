@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using Shsict.Peccacy.Mvc.Models;
+using Shsict.Peccacy.Service.DbHelper;
+using Shsict.Peccacy.Service.Model;
 
 namespace Shsict.Peccacy.Mvc.Controllers
 {
@@ -11,7 +11,15 @@ namespace Shsict.Peccacy.Mvc.Controllers
         // GET: TruckCamRecord
         public ActionResult Index()
         {
-            return View();
+            var model = new ConsoleModels.TruckCamRecordListDto();
+
+            using (IRepository repo = new Repository())
+            {
+                model.TruckCamRecords = repo.All<TruckCamRecord>()
+                    .OrderByDescending(x => x.PicTime).ToList();
+            }
+
+            return View(model);
         }
     }
 }
