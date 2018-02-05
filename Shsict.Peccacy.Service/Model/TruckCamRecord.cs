@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace Shsict.Peccacy.Service.Model
 {
@@ -7,6 +8,15 @@ namespace Shsict.Peccacy.Service.Model
     public class TruckCamRecord : Entity<int>
     {
         public TruckCamRecord() { }
+
+        public TruckCamRecord(DataRow dr, string camNo)
+        {
+            CamNo = camNo;
+            License = dr["TRUCKLICENSE"].ToString();
+            Speed = Convert.ToInt16(dr["SPEED"]);
+            PicTime = Convert.ToDateTime(dr["PICTIME"]);
+            PicName = dr["PICNAME"].ToString();
+        }
 
         #region Members and Properties
 

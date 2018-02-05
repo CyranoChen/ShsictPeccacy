@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Shsict.Peccacy.Service.DbHelper;
 
 namespace Shsict.Peccacy.Service.Model
 {
@@ -30,5 +32,28 @@ namespace Shsict.Peccacy.Service.Model
 
         #endregion
 
+
+        public static class Cache
+        {
+            public static List<CameraSource> CameraSourceList;
+
+            static Cache()
+            {
+                InitCache();
+            }
+
+            public static void RefreshCache()
+            {
+                InitCache();
+            }
+
+            private static void InitCache()
+            {
+                using (IRepository repo = new Repository())
+                {
+                    CameraSourceList = repo.All<CameraSource>();
+                }
+            }
+        }
     }
 }

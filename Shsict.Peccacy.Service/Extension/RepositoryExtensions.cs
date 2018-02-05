@@ -17,7 +17,7 @@ namespace Shsict.Peccacy.Service.Extension
             {
                 using (IRepository repo = new Repository())
                 {
-                    ret += list.Sum(instance => repo.Insert((IEntity)instance));
+                    ret += list.Sum(instance => repo.Insert(instance));
                 }
             }
 
@@ -51,7 +51,7 @@ namespace Shsict.Peccacy.Service.Extension
             {
                 using (IRepository repo = new Repository())
                 {
-                    ret += list.Sum(instance => repo.Delete((IEntity)instance));
+                    ret += list.Sum(instance => repo.Delete(instance));
                 }
             }
 
