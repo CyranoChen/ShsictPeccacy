@@ -1,7 +1,72 @@
 ﻿
-@{
-    ViewBag.Title = "Index";
+@section Styles {
+    @Styles.Render("~/Content/css/jquery.datatables")
 }
 
-<h2>Index</h2>
+@section Scripts {
+    <!-- DataTables -->
+    @Scripts.Render("~/bundles/jquery.datatables")
 
+    <script type="text/javascript">
+        $(function () {
+            $("#tbl-datatable").DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+                "language": {
+                    "url": "/Scripts/datatables/zh-CN.json"
+                }
+            });
+        });
+    </script>
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <b><i class="fa fa-book"></i> 同步日志</b>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> 管理控制台</a></li>
+            <li class="active">同步日志</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body">
+                        <table id="tbl-datatable" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>任务名称</th>
+                                    <th>任务类型</th>
+                                    <th>执行方式</th>
+                                    <th>定时(分)</th>
+                                    <th>轮询(秒)</th>
+                                    <th>上次执行时间</th>
+                                    <th>系统任务</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
