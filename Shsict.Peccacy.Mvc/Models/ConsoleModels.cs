@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using Shsict.Peccacy.Service.Logger;
 using Shsict.Peccacy.Service.Model;
 using Shsict.Peccacy.Service.Scheduler;
 
@@ -19,10 +17,10 @@ namespace Shsict.Peccacy.Mvc.Models
             public List<Schedule> Schedules { get; set; }
         }
 
-        //public class LogListDto
-        //{
-        //    public List<Log> Logs { get; set; }
-        //}
+        public class LogListDto
+        {
+            public List<Log> Logs { get; set; }
+        }
 
         public class CameraSourceListDto
         {

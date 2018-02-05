@@ -1,4 +1,5 @@
-﻿
+﻿@model Shsict.Peccacy.Mvc.Models.ConsoleModels.LogListDto
+
 @section Styles {
     @Styles.Render("~/Content/css/jquery.datatables")
 }
@@ -46,17 +47,35 @@
                         <table id="tbl-datatable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>任务名称</th>
-                                    <th>任务类型</th>
-                                    <th>执行方式</th>
-                                    <th>定时(分)</th>
-                                    <th>轮询(秒)</th>
-                                    <th>上次执行时间</th>
-                                    <th>系统任务</th>
-                                    <th>状态</th>
+                                    <th>日志分类</th>
+                                    <th>日志级别</th>
+                                    <th>记录时间</th>
+                                    <th>日志信息</th>
+                                    <th>是否异常</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
+                            @if (Model.Logs != null && Model.Logs.Count > 0)
+                            {
+                                <tbody>
+                                    @foreach (var m in Model.Logs)
+                                    {
+                                        <tr>
+                                            <td>@m.Logger</td>
+                                            <td>@m.Level.ToString()</td>
+                                            <td>@m.CreateTime.ToString("yyyyMMdd HH:mm:ss")</td>
+                                            <td>@m.Message </td>
+                                            <td>@m.IsException</td>
+                                            <td>
+                                                <button type="button" class="btn btn-info btn-xs" disabled="disabled">
+                                                    <i class="fa fa-edit"></i> detail
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            }
+
                         </table>
                     </div>
                     <!-- /.box-body -->

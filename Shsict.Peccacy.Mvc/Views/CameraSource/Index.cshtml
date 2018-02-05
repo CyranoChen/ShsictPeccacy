@@ -47,12 +47,11 @@
                         <table id="tbl-datatable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>数据源编号</th>
+                                    <th>编号</th>
                                     <th>是否同步</th>
                                     <th>连接字符串</th>
                                     <th>视图名称</th>
                                     <th>最后时间戳</th>
-                                    <th>备注</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -64,11 +63,9 @@
                                         <tr>
                                             <td>@m.CamNo</td>
                                             <td>@m.IsSync</td>
-                                            <td></td>
                                             <td>@m.ConnString </td>
                                             <td>@m.ViewName </td>
-                                            <td>@m.LastSyncTime.ToShortDateString()</td>
-                                            <td>@m.Remark</td>
+                                            <td>@m.LastSyncTime.ToString("yyyyMMdd HH:mm:ss")</td>
                                             <td>
                                                 <button type="button" class="btn btn-info btn-xs" disabled="disabled">
                                                     <i class="fa fa-edit"></i> detail

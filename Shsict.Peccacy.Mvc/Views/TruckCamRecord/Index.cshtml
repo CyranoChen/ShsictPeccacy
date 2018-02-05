@@ -64,10 +64,9 @@
                                         <tr>
                                             <td>@m.ID</td>
                                             <td>@m.License</td>
-                                            <td></td>
                                             <td>@m.Speed </td>
                                             <td>@m.CamNo </td>
-                                            <td>@m.PicTime.ToShortDateString()</td>
+                                            <td>@m.PicTime.ToString("yyyyMMdd HH:mm:ss")</td>
                                             <td>@m.PicName</td>
                                             <td>
                                                 <button type="button" class="btn btn-info btn-xs" disabled="disabled">
