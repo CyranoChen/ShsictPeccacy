@@ -38,5 +38,7 @@ namespace Shsict.Peccacy.Service.DbHelper
         int Delete<T>(object key) where T : class, IEntity;
         int Delete<T>(T instance) where T : class, IEntity;
         int Delete<T>(Expression<Func<T, bool>> predicate) where T : class, IEntity;
+
+        int ExecuteSqlCommand(string sql, object[] param);
     }
 }

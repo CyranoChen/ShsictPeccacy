@@ -1,164 +1,85 @@
 ﻿using System;
-using System.Data;
-using System.Data.SqlClient;
-using System.Reflection;
-using System.Threading;
-using Arsenalcn.Core.Dapper;
-using Arsenalcn.Core.Extension;
+using System.ComponentModel.DataAnnotations.Schema;
+using Oracle.ManagedDataAccess.Client;
+using Shsict.Peccacy.Service.DbHelper;
+using Shsict.Peccacy.Service.Model;
 
-namespace Arsenalcn.Core.Logger
+namespace Shsict.Peccacy.Service.Logger
 {
-    [DbSchema("Arsenalcn_Log", Sort = "ID DESC")]
+    [Table("PECCACY_LOG")]
     public class Log : Entity<int>
     {
-        protected void Logging(string logger, DateTime createTime, LogLevel level, string message,
-            string stackTrace, UserClientInfo userClient = null, IDbTransaction trans = null)
+        #region Members and Properties
+
+        [Column("LOGGER")]
+        public string Logger { get; set; }
+
+        [Column("LOGLEVEL")]
+        public LogLevel Level { get; set; }
+
+        [Column("CREATETIME")]
+        public DateTime CreateTime { get; set; }
+
+        [Column("MESSAGE")]
+        public string Message { get; set; }
+
+        [Column("ISEXCEPTION")]
+        public bool IsException { get; set; }
+
+        [Column("STACKTRACE")]
+        public string StackTrace { get; set; }
+
+        #endregion
+
+        public static void Logging(string logger, LogLevel level, string message)
         {
-            var sql =
-                @"INSERT INTO {0} (Logger, CreateTime, LogLevel, Message, IsException, StackTrace, Thread, Method, UserID, UserIP, UserBrowser, UserOS) 
-                               VALUES (@logger, @createTime, @logLevel, @message, @isException, @stackTrace, @thread, @method, @userID, @userIP, @userBrowser, @userOS)";
+            var sql = $@"INSERT INTO {GetTableAttr<Log>().Name} 
+                               (LOGGER, LOGLEVEL, CREATETIME, MESSAGE, ISEXCEPTION, STACKTRACE) 
+                               VALUES (:logger, :logLevel, SYSDATE, :message, '0', :stackTrace)";
 
-            sql = string.Format(sql, Repository.GetTableAttr<Log>().Name);
-
-            SqlParameter[] para =
+            object[] para =
             {
-                new SqlParameter("@logger", logger),
-                new SqlParameter("@createTime", createTime),
-                new SqlParameter("@logLevel", level.ToString()),
-                new SqlParameter("@message", message),
-                new SqlParameter("@isException", !string.IsNullOrEmpty(stackTrace)),
-                new SqlParameter("@stackTrace", stackTrace),
-                new SqlParameter("@thread", string.Empty),
-                new SqlParameter("@method", string.Empty),
-                new SqlParameter("@userID", userClient?.UserID ?? -1),
-                new SqlParameter("@userIP", userClient != null ? userClient.UserIP : "127.0.0.1"),
-                new SqlParameter("@userBrowser", userClient != null ? userClient.UserBrowser : string.Empty),
-                new SqlParameter("@userOS", userClient != null ? userClient.UserOS : string.Empty)
+                new OracleParameter(":logger", logger),
+                new OracleParameter(":logLevel", (int)level),
+                //new OracleParameter(":createTime", DateTime.Now),
+                new OracleParameter(":message", message),
+                //new OracleParameter(":isException", 0),
+                new OracleParameter(":stackTrace", string.Empty)
             };
 
-            // no logging method
-            var dapper = DapperHelper.GetInstance();
-            dapper.Execute(sql, para.ToDapperParameters(), null, ignoreLog: true);
-        }
-
-        protected void Logging(string logger, DateTime createTime, LogLevel level, string message,
-            string stackTrace, Thread thread, MethodBase method, UserClientInfo userClient = null, IDbTransaction trans = null)
-        {
-            var sql =
-                @"INSERT INTO {0} (Logger, CreateTime, LogLevel, Message, IsException, StackTrace, Thread, Method, UserID, UserIP, UserBrowser, UserOS) 
-                               VALUES (@logger, @createTime, @logLevel, @message, @isException, @stackTrace, @thread, @method, @userID, @userIP, @userBrowser, @userOS)";
-
-            sql = string.Format(sql, Repository.GetTableAttr<Log>().Name);
-
-            SqlParameter[] para =
+            using (IRepository repo = new Repository())
             {
-                new SqlParameter("@logger", logger),
-                new SqlParameter("@createTime", createTime),
-                new SqlParameter("@logLevel", level.ToString()),
-                new SqlParameter("@message", message),
-                new SqlParameter("@isException", !string.IsNullOrEmpty(stackTrace)),
-                new SqlParameter("@stackTrace", stackTrace),
-                new SqlParameter("@thread", thread.Name ?? thread.ManagedThreadId.ToString()),
-                new SqlParameter("@method", method != null
-                    ? $"{method.Name}, {method.DeclaringType?.FullName}"
-                    : string.Empty),
-                new SqlParameter("@userID", userClient?.UserID ?? -1),
-                new SqlParameter("@userIP", userClient != null ? userClient.UserIP : "127.0.0.1"),
-                new SqlParameter("@userBrowser", userClient != null ? userClient.UserBrowser : string.Empty),
-                new SqlParameter("@userOS", userClient != null ? userClient.UserOS : string.Empty)
-            };
-
-            // no logging method
-            var dapper = DapperHelper.GetInstance();
-            dapper.Execute(sql, para.ToDapperParameters(), null, ignoreLog: true);
-        }
-
-        public static void Clean()
-        {
-            IRepository repo = new Repository();
-
-            var list = repo.Query<Log>(x => x.Logger == "DaoLog" && x.CreateTime < DateTime.Now.AddMonths(-1))
-                .FindAll(x => x.Level.Equals(LogLevel.Debug));
-
-            if (list.Count > 0)
-            {
-                list.Delete();
+                repo.ExecuteSqlCommand(sql, para);
             }
         }
 
-        #region Members and Properties
+        public static void Logging(string logger, LogLevel level, Exception ex)
+        {
+            var sql = $@"INSERT INTO {GetTableAttr<Log>().Name} 
+                               (LOGGER, LOGLEVEL, CREATETIME, MESSAGE, ISEXCEPTION, STACKTRACE) 
+                               VALUES (:logger, :logLevel, SYSDATE, :message, '1', :stackTrace)";
 
-        //[DbColumn("ID", IsKey = true)]
-        //public int ID
-        //{ get; set; }
+            object[] para =
+            {
+                new OracleParameter(":logger", logger),
+                new OracleParameter(":logLevel", (int)level),
+                //new OracleParameter(":createTime", DateTime.Now),
+                new OracleParameter(":message", ex.Message),
+                //new OracleParameter(":isException", 1),
+                new OracleParameter(":stackTrace", ex.StackTrace)
+            };
 
-        [DbColumn("Logger")]
-        public string Logger { get; set; }
+            using (IRepository repo = new Repository())
+            {
+                repo.ExecuteSqlCommand(sql, para);
+            }
+        }
 
-        [DbColumn("CreateTime")]
-        public DateTime CreateTime { get; set; }
-
-        [DbColumn("LogLevel")]
-        public LogLevel Level { get; set; }
-
-        [DbColumn("Message")]
-        public string Message { get; set; }
-
-        [DbColumn("IsException")]
-        public bool IsException { get; set; }
-
-        [DbColumn("StackTrace")]
-        public string StackTrace { get; set; }
-
-        [DbColumn("Thread")]
-        public string Thread { get; set; }
-
-        [DbColumn("Method")]
-        public string Method { get; set; }
-
-        [DbColumn("UserID")]
-        public int UserID { get; set; }
-
-        [DbColumn("UserIP")]
-        public string UserIP { get; set; }
-
-        [DbColumn("UserBrowser")]
-        public string UserBrowser { get; set; }
-
-        [DbColumn("UserOS")]
-        public string UserOS { get; set; }
-
-        #endregion
-    }
-
-    public class LogInfo
-    {
-        #region Members and Properties
-
-        public Thread ThreadInstance { get; set; }
-
-        public MethodBase MethodInstance { get; set; }
-
-        public UserClientInfo UserClient { get; set; }
-
-        #endregion
-    }
-
-    public class UserClientInfo
-    {
-        #region Members and Properties
-
-        public int UserID { get; set; }
-
-        public string UserName { get; set; }
-
-        public string UserIP { get; set; }
-
-        public string UserBrowser { get; set; }
-
-        public string UserOS { get; set; }
-
-        #endregion
+        private static TableAttribute GetTableAttr<T>() where T : class
+        {
+            var attr = Attribute.GetCustomAttribute(typeof(T), typeof(TableAttribute)) as TableAttribute;
+            return attr ?? new TableAttribute(typeof(T).Name);
+        }
     }
 
     //FATAL（致命错误）：记录系统中出现的能使用系统完全失去功能，服务停止，系统崩溃等使系统无法继续运行下去的错误。例如，数据库无法连接，系统出现死循环。
@@ -170,10 +91,10 @@ namespace Arsenalcn.Core.Logger
     /// </summary>
     public enum LogLevel
     {
-        Debug,
-        Info,
-        Warn,
-        Error,
-        Fatal
+        Debug = 0,
+        Info = 1,
+        Warn = 2,
+        Error = -1,
+        Fatal = -2
     }
 }

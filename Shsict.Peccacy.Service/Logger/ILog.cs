@@ -1,23 +1,32 @@
 ﻿using System;
-using System.Data;
 
-namespace Arsenalcn.Core.Logger
+namespace Shsict.Peccacy.Service.Logger
 {
-    public interface ILog
+    public interface IDaoLog
     {
-        void Debug(string message, LogInfo para = null, IDbTransaction trans = null);
-        void Debug(Exception ex, LogInfo para = null, IDbTransaction trans = null);
+        void Debug(string message);
+        void Debug(Exception ex);
 
-        void Info(string message, LogInfo para = null, IDbTransaction trans = null);
-        void Info(Exception ex, LogInfo para = null, IDbTransaction trans = null);
+        void Info(string message);
 
-        void Warn(string message, LogInfo para = null, IDbTransaction trans = null);
-        void Warn(Exception ex, LogInfo para = null, IDbTransaction trans = null);
+        void Error(Exception ex);
 
-        void Error(string message, LogInfo para = null, IDbTransaction trans = null);
-        void Error(Exception ex, LogInfo para = null, IDbTransaction trans = null);
+        void Fatal(Exception ex);
+    }
 
-        void Fatal(string message, LogInfo para = null, IDbTransaction trans = null);
-        void Fatal(Exception ex, LogInfo para = null, IDbTransaction trans = null);
+    public interface IAppLog
+    {
+        void Info(string message);
+
+        void Warn(string message);
+
+        void Error(Exception ex);
+    }
+
+    public interface IUserLog
+    {
+        void Info(string message);
+
+        void Error(Exception ex);
     }
 }

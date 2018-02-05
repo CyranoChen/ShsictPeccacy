@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using Oracle.ManagedDataAccess.Client;
 using Shsict.Peccacy.Service.Model;
 
 namespace Shsict.Peccacy.Service.DbHelper
@@ -123,6 +125,11 @@ namespace Shsict.Peccacy.Service.DbHelper
             {
                 return 0;
             }
+        }
+
+        public int ExecuteSqlCommand(string sql, object[] param)
+        {
+            return _db.Database.ExecuteSqlCommand(sql, param);
         }
 
         public void Dispose()

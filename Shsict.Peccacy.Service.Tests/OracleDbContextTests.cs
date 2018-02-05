@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Shsict.Peccacy.Service.DbHelper;
+using Shsict.Peccacy.Service.Logger;
 using Shsict.Peccacy.Service.Model;
 
 namespace Shsict.Peccacy.Service.Tests
@@ -43,6 +45,22 @@ namespace Shsict.Peccacy.Service.Tests
                 }
 
                 IList list = ctx.Configs.ToList();
+            }
+        }
+
+        [TestMethod()]
+        public void LoggingTest()
+        {
+            var log = new DaoLog();
+            log.Debug("test");
+
+            log.Debug(new Exception("error"));
+
+            using (IRepository repo = new Repository())
+            {
+                var list = repo.All<Log>();
+
+                Assert.IsTrue(repo.Count<Log>(x => x.Logger == "DaoLog") > 0);
             }
         }
     }

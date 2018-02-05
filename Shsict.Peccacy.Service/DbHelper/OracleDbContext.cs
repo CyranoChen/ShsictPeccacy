@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using Shsict.Peccacy.Service.Logger;
 using Shsict.Peccacy.Service.Model;
 using Shsict.Peccacy.Service.Scheduler;
 
@@ -37,7 +38,7 @@ namespace Shsict.Peccacy.Service.DbHelper
         /// <summary>
         /// Log
         /// </summary>
-        //public DbSet<Log> Logs { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         /// <summary>
         /// OnModelCreating

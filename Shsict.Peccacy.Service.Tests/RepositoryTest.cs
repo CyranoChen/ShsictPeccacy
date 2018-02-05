@@ -42,6 +42,8 @@ namespace Shsict.Peccacy.Service.Tests
                 Assert.IsNotNull(query);
                 Assert.IsInstanceOfType(query, typeof(List<Config>));
                 Assert.IsTrue(query.Any());
+
+                Assert.IsTrue(repo.Count<Config>(x => x.ConfigKey.Contains("Assembly")) > 0);
             }
         }
 
@@ -53,7 +55,7 @@ namespace Shsict.Peccacy.Service.Tests
             {
                 // correct value of argument
                 // ReSharper disable once RedundantBoolCompare
-                var query1 = repo.Query<Config>(x => x.ConfigKey.Equals("test"));
+                var query1 = repo.Query<Config>(x => x.ConfigKey.Equals("SystemActive"));
 
                 Assert.IsNotNull(query1);
                 Assert.IsInstanceOfType(query1, typeof(List<Config>));

@@ -8,6 +8,7 @@ namespace Shsict.Peccacy.Service.Tests
     [TestClass()]
     public class AccessDbTests
     {
+        [Ignore]
         [TestMethod()]
         public void AccessDbNativeTest()
         {
@@ -44,6 +45,7 @@ namespace Shsict.Peccacy.Service.Tests
             }
         }
 
+        [Ignore]
         [TestMethod()]
         public void AccessDbHelperTest()
         {
