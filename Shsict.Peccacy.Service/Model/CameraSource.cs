@@ -54,6 +54,11 @@ namespace Shsict.Peccacy.Service.Model
                     CameraSourceList = repo.All<CameraSource>();
                 }
             }
+
+            public static CameraSource Load(int id)
+            {
+                return CameraSourceList.Find(x => x.ID == id);
+            }
         }
     }
 }

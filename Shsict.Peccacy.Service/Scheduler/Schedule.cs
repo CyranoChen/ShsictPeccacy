@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Shsict.Peccacy.Service.DbHelper;
 using Shsict.Peccacy.Service.Model;
 
 namespace Shsict.Peccacy.Service.Scheduler
@@ -21,106 +23,6 @@ namespace Shsict.Peccacy.Service.Scheduler
                 return _ischedule;
             }
         }
-
-        //private static void CreateMap()
-        //{
-        //    var map = Mapper.CreateMap<IDataReader, Schedule>();
-
-        //    map.ForMember(d => d.ScheduleKey, opt => opt.MapFrom(s => s.GetValue("ScheduleKey").ToString()));
-
-        //    map.ForMember(d => d.Seconds, opt => opt.ResolveUsing(s =>
-        //    {
-        //        var mins = (int) s.GetValue("Seconds");
-        //        if (mins > 0 & mins < ScheduleManager.TimerMinutesInterval)
-        //        {
-        //            return ScheduleManager.TimerMinutesInterval;
-        //        }
-        //        return mins;
-        //    }));
-
-        //    map.ForMember(d => d.ExecuteTimeInfo, opt => opt.ResolveUsing(s =>
-        //    {
-        //        var dailyTime = (int) s.GetValue("DailyTime");
-
-        //        if (dailyTime >= 0)
-        //        {
-        //            return $"Run at {dailyTime/60}:{dailyTime%60}";
-        //        }
-        //        return $"Run By {s.GetValue("Seconds").ToString()} mins";
-        //    }));
-        //}
-
-        //public override void Inital()
-        //{
-        //    if (Seconds > 0 & Seconds < ScheduleManager.TimerMinutesInterval)
-        //    {
-        //        Seconds = ScheduleManager.TimerMinutesInterval;
-        //    }
-
-        //    if (DailyTime >= 0)
-        //    {
-        //        ExecuteTimeInfo = $"Run at {DailyTime / 60}:{DailyTime % 60}";
-        //    }
-        //    else
-        //    {
-        //        ExecuteTimeInfo = $"Run By {Seconds} mins";
-        //    }
-        //}
-
-        //public Schedule Single(object key)
-        //{
-        //    var sql = $"SELECT * FROM {Repository.GetTableAttr<Schedule>().Name} WHERE ScheduleKey = @key";
-
-        //    return _conn.QueryFirstOrDefault<Schedule>(sql, new { key });
-        //}
-
-        //public bool Any()
-        //{
-        //    var sql = $"SELECT * FROM {Repository.GetTableAttr<Schedule>().Name} WHERE ScheduleKey = @key";
-
-        //    var result = _conn.Query<int>(sql, new { key = ScheduleKey }).ToList();
-
-        //    return Convert.ToInt32(result[0]) > 0;
-        //}
-
-        //public List<Schedule> All()
-        //{
-        //    var attr = Repository.GetTableAttr<Schedule>();
-
-        //    var sql = $"SELECT * FROM {attr.Name} ORDER BY {attr.Sort}";
-
-        //    var list = _conn.Query<Schedule>(sql).ToList();
-
-        //    //if (list.Count > 0) { list.Each(x => x.Inital()); }
-        //    // TODO CREATEMAP
-
-        //    return list;
-        //}
-
-        //public void Update(IDbTransaction trans = null)
-        //{
-        //    Contract.Requires(Any());
-
-        //    var sql =
-        //        $@"UPDATE {Repository.GetTableAttr<Schedule>().Name
-        //            } SET ScheduleType = @scheduleType, DailyTime = @dailyTime, Seconds = @minutes, 
-        //                     LastCompletedTime = @lastCompletedTime, IsSystem = @isSystem, IsActive = @isActive, Remark = @remark 
-        //                     WHERE ScheduleKey = @key";
-
-        //    SqlParameter[] para =
-        //    {
-        //        new SqlParameter("@scheduleType", ScheduleType),
-        //        new SqlParameter("@dailyTime", DailyTime),
-        //        new SqlParameter("@minutes", Seconds),
-        //        new SqlParameter("@lastCompletedTime", LastCompletedTime),
-        //        new SqlParameter("@isSystem", IsSystem),
-        //        new SqlParameter("@isActive", IsActive),
-        //        new SqlParameter("@remark", Remark),
-        //        new SqlParameter("@key", ScheduleKey)
-        //    };
-
-        //    _conn.Execute(sql, para, trans);
-        //}
 
         /// <summary>
         ///     Private method for loading an instance of ISchedule
@@ -164,10 +66,12 @@ namespace Shsict.Peccacy.Service.Scheduler
                 var dtNow = DateTime.Now; //now
                 //We are looking for the current day @ 12:00 am
                 var dtCompare = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day);
+
                 //Check to see if the LastCompleted date is less than the 12:00 am + TimeOfDay minutes
                 return LastCompletedTime < dtCompare.AddMinutes(DailyTime) &&
                        dtCompare.AddMinutes(DailyTime) <= DateTime.Now;
             }
+
             //Is the LastCompleted date + the Seconds interval less than now?
             return LastCompletedTime.AddSeconds(Seconds) < DateTime.Now;
         }

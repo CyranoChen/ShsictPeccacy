@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using System.Reflection;
 using System.Threading;
 using Shsict.Peccacy.Service.DbHelper;
 using Shsict.Peccacy.Service.Extension;
+using Shsict.Peccacy.Service.Logger;
 
 namespace Shsict.Peccacy.Service.Scheduler
 {
@@ -15,25 +15,21 @@ namespace Shsict.Peccacy.Service.Scheduler
     /// </summary>
     public static class ScheduleManager
     {
-        public static readonly int TimerMinutesInterval = 10;
+        public static readonly int TimerSecondsInterval = 10;
 
         public static void Execute(string assembly = null)
         {
-            //ILog log = new AppLog();
-            //var logInfo = new LogInfo
-            //{
-            //    MethodInstance = MethodBase.GetCurrentMethod(),
-            //    ThreadInstance = Thread.CurrentThread
-            //};
-
             try
             {
                 using (IRepository repo = new Repository())
                 {
+                    var list = repo.Query<Schedule>(x => x.IsActive);
+
                     // The application must run schedule task by it's own assembly name
-                    var list = !string.IsNullOrEmpty(assembly)
-                        ? repo.All<Schedule>().FindAll(x => x.IsActive && x.ScheduleType.Contains(assembly))
-                        : repo.All<Schedule>().FindAll(x => x.IsActive);
+                    if (!string.IsNullOrEmpty(assembly))
+                    {
+                        list = list.FindAll(x => x.ScheduleType.Contains(assembly));
+                    }
 
                     if (list.Count > 0)
                     {
@@ -44,27 +40,24 @@ namespace Shsict.Peccacy.Service.Scheduler
                                 // Call this method BEFORE processing the ScheduledEvent. This will help protect against long running events 
                                 // being fired multiple times. Note, it is not absolute protection. App restarts will cause events to look like
                                 // they were completed, even if they were not. Again, ScheduledEvents are helpful...but not 100% reliable
-
                                 var instance = s.IScheduleInstance;
                                 ManagedThreadPool.QueueUserWorkItem(instance.Execute);
 
+                                // Update the LastCompletedTime of this scheduler
                                 s.LastCompletedTime = DateTime.Now;
-                                //repo.Update(s, x => x.ScheduleKey == s.ScheduleKey);
-
-                                //log.Debug($"ISchedule: {s.ScheduleType}", logInfo);
+                                repo.Save(s);
                             }
                         }
 
-                        list.Update();
 
+                        list.Update();
                     }
                 }
             }
             catch (Exception ex)
             {
-                //log.Debug(ex, logInfo);
-
-                throw;
+                IAppLog log = new AppLog();
+                log.Error(ex);
             }
         }
     }
