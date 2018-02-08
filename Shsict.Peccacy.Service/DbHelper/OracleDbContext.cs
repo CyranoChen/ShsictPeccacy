@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Configuration;
+using System.Data.Entity;
 using Shsict.Peccacy.Service.Logger;
 using Shsict.Peccacy.Service.Model;
 using Shsict.Peccacy.Service.Scheduler;
@@ -46,7 +47,8 @@ namespace Shsict.Peccacy.Service.DbHelper
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("SHSICT");
+            var owner = ConfigurationManager.AppSettings["Oracle.Schema.Owner"];
+            modelBuilder.HasDefaultSchema(owner.ToUpper());
         }
     }
 }

@@ -22,21 +22,23 @@
                 }
             });
 
-            $("input.seconds").change(function() {
+            $("input.seconds").change(function () {
                 if ($(this).val() !== "") {
                     $.post("@Url.Action("Update", "Schedule")",
                         {
-                            "key": $(this).parent().siblings("shedulekey").text(),
-                            "seconds": $(this).val()
+                            "key": $(this).parents("tr").find("td.shedulekey").text(),
+                            "seconds": $(this).val(),
+                            "isactive": $(this).parents("tr").find("input.isactive").val()
                         });
                 }
             });
 
-            $("input.isactive").change(function() {
+            $("input.isactive").change(function () {
                 if ($(this).val() !== "") {
                     $.post("@Url.Action("Update", "Schedule")",
                         {
-                            "key": $(this).parent().siblings("shedulekey").text(),
+                            "key": $(this).parents("tr").find("td.shedulekey").text(),
+                            "seconds": $(this).parents("tr").find("input.seconds").val(),
                             "isactive": $(this).val()
                         });
                 }
@@ -87,7 +89,7 @@
                                             </td>
                                             <td>@m.LastCompletedTime.ToString("yyyyMMdd HH:mm:ss")</td>
                                             <td>
-                                                <input type="text" class="form-control isactive" style="width: 70px" value="@m.IsActive.ToString()"/>
+                                                <input type="text" class="form-control isactive" style="width: 70px" value="@m.IsActive.ToString()" />
                                             </td>
                                         </tr>
                                     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Shsict.Peccacy.Mvc.Models;
 using Shsict.Peccacy.Service.DbHelper;
@@ -16,7 +17,7 @@ namespace Shsict.Peccacy.Mvc.Controllers
 
             using (IRepository repo = new Repository())
             {
-                model.CameraSources = repo.All<CameraSource>();
+                model.CameraSources = repo.All<CameraSource>().OrderBy(x => x.CamNo).ToList();
             }
 
             return View(model);
@@ -70,6 +71,7 @@ namespace Shsict.Peccacy.Mvc.Controllers
 
 
         // GET: CameraSource/Sync/5
+        // TODO refact to HTTP POST 
         public ActionResult Sync(int id)
         {
             using (IRepository repo = new Repository())

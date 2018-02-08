@@ -16,7 +16,7 @@ namespace Shsict.Peccacy.Service.Tests
             using (IRepository repo = new Repository())
             {
                 // correct value of argument
-                var key1 = 2;
+                var key1 = 37;
 
                 var instance1 = repo.Single<Config>(key1);
 

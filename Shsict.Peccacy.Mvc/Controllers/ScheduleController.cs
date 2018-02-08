@@ -23,7 +23,7 @@ namespace Shsict.Peccacy.Mvc.Controllers
         // AJAX JsonResult
         // POST:  Schduler/Update
         [HttpPost]
-        public JsonResult Update(string key, int seconds)
+        public JsonResult Update(string key, int seconds, bool isactive)
         {
             if (!string.IsNullOrEmpty(key) && seconds > 0)
             {
@@ -34,30 +34,6 @@ namespace Shsict.Peccacy.Mvc.Controllers
                     if (s != null)
                     {
                         s.Seconds = seconds;
-
-                        repo.Save(s);
-
-                        return Json("Success");
-                    }
-                }
-            }
-
-            return Json("Failed");
-        }
-
-        // AJAX JsonResult
-        // POST:  Schduler/Update
-        [HttpPost]
-        public JsonResult Update(string key, bool isactive)
-        {
-            if (!string.IsNullOrEmpty(key))
-            {
-                using (IRepository repo = new Repository())
-                {
-                    var s = repo.Single<Schedule>(x => x.ScheduleKey == key);
-
-                    if (s != null)
-                    {
                         s.IsActive = isactive;
 
                         repo.Save(s);
@@ -69,6 +45,5 @@ namespace Shsict.Peccacy.Mvc.Controllers
 
             return Json("Failed");
         }
-
     }
 }
