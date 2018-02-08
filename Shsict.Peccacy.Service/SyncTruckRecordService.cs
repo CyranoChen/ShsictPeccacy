@@ -30,8 +30,8 @@ namespace Shsict.Peccacy.Service
         // 调用指定摄像头数据源到目标库
         public static void SyncCameraSource(CameraSource cam)
         {
-            IAppLog log = new AppLog();
-            
+            IUserLog log = new UserLog();
+
             try
             {
                 using (IRepository repo = new Repository())
@@ -50,7 +50,14 @@ namespace Shsict.Peccacy.Service
                         repo.Save(cam);
 
                         // 记录成功日志
-                        log.Info($"{cam.CamNo}同步{countInsert}条记录，最后时间戳{cam.LastSyncTime}");
+                        var msg = new
+                        {
+                            camNo = cam.CamNo,
+                            countInsert,
+                            lastSyncRecordTime = cam.LastSyncTime.ToString("yyyyMMdd HH:mm:ss")
+                        };
+
+                        log.Info(msg.ToJson());
                     }
                 }
             }
@@ -62,7 +69,7 @@ namespace Shsict.Peccacy.Service
 
         private static List<TruckCamRecord> GetTruckRecordsByCamSource(CameraSource cam)
         {
-            IAppLog log = new AppLog();
+            IUserLog log = new UserLog();
 
             var list = new List<TruckCamRecord>();
 

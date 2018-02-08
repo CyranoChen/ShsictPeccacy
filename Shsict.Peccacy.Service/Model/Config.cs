@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Reflection;
 using Shsict.Peccacy.Service.DbHelper;
 
@@ -11,12 +10,6 @@ namespace Shsict.Peccacy.Service.Model
     public class Config : Entity<int>
     {
         public Config() { }
-
-        public Config(string key, object value)
-        {
-            ConfigKey = key;
-            ConfigValue = value?.ToString().Trim();
-        }
 
         public static void UpdateAssemblyInfo(Assembly assembly)
         {
@@ -36,50 +29,58 @@ namespace Shsict.Peccacy.Service.Model
                 using (IRepository repo = new Repository())
                 {
                     //AssemblyTitle
-                    var c = new Config("AssemblyTitle", ((AssemblyTitleAttribute)
-                            Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)))?.Title);
+                    var c = repo.Single<Config>(x => x.ConfigKey == "AssemblyTitle");
+                    c.ConfigValue = ((AssemblyTitleAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyTitleAttribute)))?.Title;
 
                     repo.Save(c);
 
                     //AssemblyDescription
-                    c = new Config("AssemblyDescription", ((AssemblyDescriptionAttribute)
-                            Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute)))?.Description);
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyDescription");
+                    c.ConfigValue = ((AssemblyDescriptionAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute)))?.Description;
 
                     repo.Save(c);
 
                     //AssemblyConfiguration
-                    c = new Config("AssemblyConfiguration", ((AssemblyConfigurationAttribute)
-                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyConfigurationAttribute)))?.Configuration);
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyConfiguration");
+                    c.ConfigValue = ((AssemblyConfigurationAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyConfigurationAttribute)))?.Configuration;
 
                     repo.Save(c);
 
                     //AssemblyCompany
-                    c = new Config("AssemblyCompany", ((AssemblyCompanyAttribute)
-                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyCompanyAttribute)))?.Company);
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyCompany");
+                    c.ConfigValue = ((AssemblyCompanyAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyCompanyAttribute)))?.Company;
 
                     repo.Save(c);
 
                     //AssemblyProduct
-                    c = new Config("AssemblyProduct", ((AssemblyProductAttribute)
-                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyProductAttribute)))?.Product);
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyProduct");
+                    c.ConfigValue = ((AssemblyProductAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyProductAttribute)))?.Product;
 
                     repo.Save(c);
 
                     //AssemblyCopyright
-                    c = new Config("AssemblyCopyright", ((AssemblyCopyrightAttribute)
-                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyCopyrightAttribute)))?.Copyright);
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyCopyright");
+                    c.ConfigValue = ((AssemblyCopyrightAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyCopyrightAttribute)))?.Copyright;
 
                     repo.Save(c);
 
                     //AssemblyTrademark
-                    c = new Config("AssemblyTrademark", ((AssemblyTrademarkAttribute)
-                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyTrademarkAttribute)))?.Trademark);
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyTrademark");
+                    c.ConfigValue = ((AssemblyTrademarkAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyTrademarkAttribute)))?.Trademark;
 
                     repo.Save(c);
 
                     //AssemblyCulture
-                    c = new Config("AssemblyCulture", ((AssemblyCultureAttribute)
-                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyCultureAttribute)))?.Culture);
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyCulture");
+                    c.ConfigValue = ((AssemblyCultureAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyCultureAttribute)))?.Culture;
 
                     repo.Save(c);
 
@@ -87,13 +88,15 @@ namespace Shsict.Peccacy.Service.Model
                     var assemblyName = assembly.GetName();
                     var version = assemblyName.Version;
 
-                    c = new Config("AssemblyVersion", version?.ToString());
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyVersion");
+                    c.ConfigValue = version?.ToString();
 
                     repo.Save(c);
 
                     //AssemblyFileVersion
-                    c = new Config("AssemblyFileVersion", ((AssemblyFileVersionAttribute)
-                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyFileVersionAttribute)))?.Version);
+                    c = repo.Single<Config>(x => x.ConfigKey == "AssemblyFileVersion");
+                    c.ConfigValue = ((AssemblyFileVersionAttribute)
+                        Attribute.GetCustomAttribute(assembly, typeof(AssemblyFileVersionAttribute)))?.Version;
 
                     repo.Save(c);
                 }

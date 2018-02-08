@@ -9,6 +9,11 @@ namespace Shsict.Peccacy.Service.Logger
             Log.Logging(GetType().Name, LogLevel.Info, message);
         }
 
+        public void Warn(string message)
+        {
+            Log.Logging(GetType().Name, LogLevel.Warn, message);
+        }
+
         public void Error(Exception ex)
         {
             Log.Logging(GetType().Name, LogLevel.Error, ex);

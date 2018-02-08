@@ -24,7 +24,7 @@
 
             $("input.seconds").change(function() {
                 if ($(this).val() !== "") {
-                    $.post("@Url.Action("Update", "Scheduler")",
+                    $.post("@Url.Action("Update", "Schedule")",
                         {
                             "key": $(this).parent().siblings("shedulekey").text(),
                             "seconds": $(this).val()
@@ -34,7 +34,7 @@
 
             $("input.isactive").change(function() {
                 if ($(this).val() !== "") {
-                    $.post("@Url.Action("Update", "Scheduler")",
+                    $.post("@Url.Action("Update", "Schedule")",
                         {
                             "key": $(this).parent().siblings("shedulekey").text(),
                             "isactive": $(this).val()
@@ -83,11 +83,11 @@
                                             <td class="shedulekey">@m.ScheduleKey</td>
                                             <td>@m.ScheduleType</td>
                                             <td>
-                                                <input type="text" class="form-control seconds" style="width: 100px" value="@m.Seconds" />
+                                                <input type="text" class="form-control seconds" style="width: 50px" value="@m.Seconds" />
                                             </td>
-                                            <td>@m.LastCompletedTime.ToShortDateString()</td>
+                                            <td>@m.LastCompletedTime.ToString("yyyyMMdd HH:mm:ss")</td>
                                             <td>
-                                                <input type="text" class="form-control isactive" style="width: 100px" value="@m.IsActive" />
+                                                <input type="text" class="form-control isactive" style="width: 70px" value="@m.IsActive.ToString()"/>
                                             </td>
                                         </tr>
                                     }

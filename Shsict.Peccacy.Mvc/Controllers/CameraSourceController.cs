@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Shsict.Peccacy.Mvc.Models;
 using Shsict.Peccacy.Service.DbHelper;
+using Shsict.Peccacy.Service.Logger;
 using Shsict.Peccacy.Service.Model;
 
 namespace Shsict.Peccacy.Mvc.Controllers
@@ -77,6 +78,9 @@ namespace Shsict.Peccacy.Mvc.Controllers
 
                 if (cam != null)
                 {
+                    IUserLog log = new UserLog();
+                    log.Info($"手动执行同步【{cam.CamNo}】的数据");
+
                     Service.SyncTruckRecordService.SyncCameraSource(cam);
                 }
             }

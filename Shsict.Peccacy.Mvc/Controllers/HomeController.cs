@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Shsict.Peccacy.Mvc.Models;
 using Shsict.Peccacy.Service.DbHelper;
 using Shsict.Peccacy.Service.Model;
@@ -16,7 +15,7 @@ namespace Shsict.Peccacy.Mvc.Controllers
         // GET: Home/Refresh
         public ActionResult Refresh()
         {
-            Service.Model.Config.UpdateAssemblyInfo(Assembly.GetExecutingAssembly());
+            //Service.Model.Config.UpdateAssemblyInfo(Assembly.GetExecutingAssembly());
 
             ConfigGlobal.Refresh();
 

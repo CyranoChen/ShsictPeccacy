@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Shsict.Peccacy.Mvc.Models;
 using Shsict.Peccacy.Service.DbHelper;
@@ -18,7 +19,9 @@ namespace Shsict.Peccacy.Mvc.Controllers
                 // 非数据库操作日志（7天内）
                 var dateLower = DateTime.Now.AddDays(-7);
                 model.Logs = repo.Query<Log>(x =>
-                    !x.Logger.Equals(nameof(DaoLog)) && x.CreateTime >= dateLower);
+                    !x.Logger.Equals(nameof(DaoLog)) && x.CreateTime >= dateLower)
+                    .OrderByDescending(x => x.CreateTime).ToList();
+
             }
 
             return View(model);

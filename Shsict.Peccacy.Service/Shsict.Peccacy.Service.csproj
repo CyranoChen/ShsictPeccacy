@@ -48,6 +48,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,6 +61,7 @@
     <Compile Include="DbHelper\IRepository.cs" />
     <Compile Include="DbHelper\Repository.cs" />
     <Compile Include="Extension\CollectionExtensions.cs" />
+    <Compile Include="Extension\JsonExtensions.cs" />
     <Compile Include="Extension\RepositoryExtensions.cs" />
     <Compile Include="Logger\AppLog.cs" />
     <Compile Include="Logger\DaoLog.cs" />

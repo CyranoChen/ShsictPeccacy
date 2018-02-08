@@ -5,7 +5,7 @@ using Shsict.Peccacy.Service.Scheduler;
 
 namespace Shsict.Peccacy.Mvc.Controllers
 {
-    public class SchedulerController : Controller
+    public class ScheduleController : Controller
     {
         // GET: Scheduler
         public ActionResult Index()

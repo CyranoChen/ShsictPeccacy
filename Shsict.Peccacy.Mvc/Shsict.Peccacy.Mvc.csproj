@@ -129,7 +129,7 @@
     <Compile Include="Controllers\CameraSourceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoggerController.cs" />
-    <Compile Include="Controllers\SchedulerController.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\TruckCamRecordController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -486,7 +486,7 @@
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Views\TruckCamRecord\Index.cshtml" />
-    <Content Include="Views\Scheduler\Index.cshtml" />
+    <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Logger\Index.cshtml" />
     <Content Include="Views\CameraSource\Index.cshtml" />
     <Content Include="Views\CameraSource\Edit.cshtml" />
