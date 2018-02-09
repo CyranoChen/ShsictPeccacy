@@ -16,8 +16,8 @@ namespace Shsict.Peccacy.Mvc.Controllers
 
             using (IRepository repo = new Repository())
             {
-                // 非数据库操作日志（7天内）
-                var dateLower = DateTime.Now.AddDays(-7);
+                // 非数据库操作日志（1天内）
+                var dateLower = DateTime.Now.AddDays(-1);
                 model.Logs = repo.Query<Log>(x =>
                     !x.Logger.Equals(nameof(DaoLog)) && x.CreateTime >= dateLower)
                     .OrderByDescending(x => x.CreateTime).ToList();

@@ -1,12 +1,12 @@
 ﻿@model Shsict.Peccacy.Mvc.Models.ConsoleModels.TruckCamRecordListDto
 
 @section Styles {
-    @Styles.Render("~/Content/css/jquery.datatables")
+    @Styles.Render("~/Content/css/datatables")
 }
 
 @section Scripts {
     <!-- DataTables -->
-    @Scripts.Render("~/bundles/jquery.datatables")
+    @Scripts.Render("~/bundles/datatables")
 
     <script type="text/javascript">
         $(function () {
@@ -14,8 +14,9 @@
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
+                "order": [[4, 'desc']],
                 "ordering": true,
-                "info": false,
+                "info": true,
                 "autoWidth": false,
                 "language": {
                     "url": "/Scripts/datatables/zh-CN.json"

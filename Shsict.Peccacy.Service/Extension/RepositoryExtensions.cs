@@ -9,53 +9,47 @@ namespace Shsict.Peccacy.Service.Extension
     {
         public static int Insert<T>(this IEnumerable<T> source) where T : class, IEntity
         {
-            var list = source as IList<T> ?? source.ToList();
+            var enumerable = source as T[] ?? source.ToArray();
 
-            var ret = 0;
-
-            if (list.Count > 0)
+            if (enumerable.Any())
             {
                 using (IRepository repo = new Repository())
                 {
-                    ret += list.Sum(instance => repo.Insert(instance));
+                    return repo.Insert(enumerable);
                 }
             }
 
-            return ret;
+            return 0;
         }
 
         public static int Update<T>(this IEnumerable<T> source) where T : class, IEntity
         {
-            var list = source as IList<T> ?? source.ToList();
+            var enumerable = source as T[] ?? source.ToArray();
 
-            var ret = 0;
-
-            if (list.Count > 0)
+            if (enumerable.Any())
             {
                 using (IRepository repo = new Repository())
                 {
-                    ret = repo.Save(list.ToArray());
+                    return repo.Save(enumerable);
                 }
             }
 
-            return ret;
+            return 0;
         }
 
         public static int Delete<T>(this IEnumerable<T> source) where T : class, IEntity
         {
-            var list = source as IList<T> ?? source.ToList();
+            var enumerable = source as T[] ?? source.ToArray();
 
-            var ret = 0;
-
-            if (list.Count > 0)
+            if (enumerable.Any())
             {
                 using (IRepository repo = new Repository())
                 {
-                    ret += list.Sum(instance => repo.Delete(instance));
+                    return repo.Delete(enumerable);
                 }
             }
 
-            return ret;
+            return 0;
         }
     }
 }

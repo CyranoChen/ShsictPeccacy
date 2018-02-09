@@ -210,6 +210,7 @@
     <Content Include="admin-lte\js\demo.js" />
     <Content Include="admin-lte\js\pages\dashboard.js" />
     <Content Include="admin-lte\js\pages\dashboard2.js" />
+    <Content Include="App_Data\ITCClient1.mdb" />
     <Content Include="App_Data\ITCClient2.mdb" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -491,6 +492,7 @@
     <Content Include="Views\CameraSource\Index.cshtml" />
     <Content Include="Views\CameraSource\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Scripts\DataTables\zh-CN.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

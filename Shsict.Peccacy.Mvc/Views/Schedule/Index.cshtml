@@ -1,12 +1,12 @@
 ﻿@model Shsict.Peccacy.Mvc.Models.ConsoleModels.ScheduleListDto
 
 @section Styles {
-    @Styles.Render("~/Content/css/jquery.datatables")
+    @Styles.Render("~/Content/css/datatables")
 }
 
 @section Scripts {
     <!-- DataTables -->
-    @Scripts.Render("~/bundles/jquery.datatables")
+    @Scripts.Render("~/bundles/datatables")
 
     <script type="text/javascript">
         $(function() {
@@ -85,11 +85,11 @@
                                             <td class="shedulekey">@m.ScheduleKey</td>
                                             <td>@m.ScheduleType</td>
                                             <td>
-                                                <input type="text" class="form-control seconds" style="width: 50px" value="@m.Seconds" />
+                                                <input type="text" class="form-control seconds" style="width: 80px" value="@m.Seconds" />
                                             </td>
                                             <td>@m.LastCompletedTime.ToString("yyyyMMdd HH:mm:ss")</td>
                                             <td>
-                                                <input type="text" class="form-control isactive" style="width: 70px" value="@m.IsActive.ToString()" />
+                                                <input type="text" class="form-control isactive" style="width: 80px" value="@m.IsActive.ToString()" />
                                             </td>
                                         </tr>
                                     }

@@ -24,7 +24,7 @@ namespace Shsict.Peccacy.Service.DbHelper
         //List<T> Query<T>(Criteria criteria) where T : class, IEntity, new();
 
         int Insert<T>(T instance) where T : class, IEntity;
-        //int Insert<T>(T instance, out object key) where T : class, IEntity;
+        int Insert<T>(T[] instance) where T : class, IEntity;
 
         //int Update<T>(T instance) where T : class, IEntity;
         //int Update<T>(T instance, Expression<Func<T, bool>> predicate) where T : class, IEntity;
@@ -37,6 +37,7 @@ namespace Shsict.Peccacy.Service.DbHelper
 
         int Delete<T>(object key) where T : class, IEntity;
         int Delete<T>(T instance) where T : class, IEntity;
+        int Delete<T>(T[] instances) where T : class, IEntity;
         int Delete<T>(Expression<Func<T, bool>> predicate) where T : class, IEntity;
 
         int ExecuteSqlCommand(string sql, object[] param);

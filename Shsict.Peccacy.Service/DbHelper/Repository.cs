@@ -61,6 +61,13 @@ namespace Shsict.Peccacy.Service.DbHelper
             return _db.SaveChanges();
         }
 
+        public int Insert<T>(T[] instances) where T : class, IEntity
+        {
+            _db.Set<T>().AddRange(instances);
+
+            return _db.SaveChanges();
+        }
+
         //public int Insert<T>(T instance, out object key) where T : class, IEntity
         //{
         //    _db.Set<T>().Add(instance);
@@ -107,6 +114,13 @@ namespace Shsict.Peccacy.Service.DbHelper
         public int Delete<T>(T instance) where T : class, IEntity
         {
             _db.Set<T>().Remove(instance);
+
+            return _db.SaveChanges();
+        }
+
+        public int Delete<T>(T[] instances) where T : class, IEntity
+        {
+            _db.Set<T>().RemoveRange(instances);
 
             return _db.SaveChanges();
         }
