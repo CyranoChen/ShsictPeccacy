@@ -1,7 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using System.Data.OleDb;
 using Shsict.Peccacy.Service.DbHelper;
+using Shsict.Peccacy.Service.Model;
 
 namespace Shsict.Peccacy.Service.Tests
 {
@@ -45,14 +47,14 @@ namespace Shsict.Peccacy.Service.Tests
             }
         }
 
-        [Ignore]
         [TestMethod()]
         public void AccessDbHelperTest()
         {
-            const string conStr = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SqlData\Peccacy.mdb;Persist Security Info=False";
+            const string conStr = @"Provider=Microsoft.Jet.OLEDB.4.0; 
+                    Data Source=C:\Projects\ShsictPeccacy\Shsict.Peccacy.Mvc\App_Data\ITCClient2.mdb;
+                    Persist Security Info=False";
 
-            var sql =
-                @"SELECT * FROM [Truck_Record]";
+            var sql = @"SELECT * FROM [MVC_DATA] WHERE [ABSTIME] > #2018/01/01 01:01:01# ";
 
             var ds = AccessHelper.ExecuteDataset(conStr, CommandType.Text, sql);
 
@@ -62,6 +64,25 @@ namespace Shsict.Peccacy.Service.Tests
 
                 Assert.IsTrue(dt.Rows.Count > 0);
             }
+        }
+
+        [TestMethod()]
+        public void AccessGetDataTest()
+        {
+            var cam = new CameraSource
+            {
+                CamNo = "81#",
+                ConnString = @"Provider=Microsoft.Jet.OLEDB.4.0; 
+                    Data Source=C:\Projects\ShsictPeccacy\Shsict.Peccacy.Mvc\App_Data\ITCClient2.mdb;
+                    Persist Security Info=False",
+                LastSyncTime = DateTime.Now.AddDays(-1),
+                ViewName = "SSICT_TruckOverSpeed_VW",
+                IsSync = true
+            };
+
+            var list = Service.SyncTruckRecordService.GetTruckRecordsByCamSource(cam);
+
+            Assert.IsTrue(list.Count > 0);
         }
     }
 }

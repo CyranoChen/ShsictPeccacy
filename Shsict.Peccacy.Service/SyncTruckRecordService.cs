@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
 using System.Linq;
 using Shsict.Peccacy.Service.DbHelper;
 using Shsict.Peccacy.Service.Extension;
@@ -34,20 +33,22 @@ namespace Shsict.Peccacy.Service
 
             try
             {
-                using (IRepository repo = new Repository())
-                {
-                    // 获取需要同步的集卡违章数据，已按抓拍时间倒序排列
-                    var list = GetTruckRecordsByCamSource(cam);
+                // 获取需要同步的集卡违章数据，已按抓拍时间升序排列
+                var list = GetTruckRecordsByCamSource(cam);
 
-                    if (list.Count > 0)
+                if (list.Count > 0)
+                {
+                    using (IRepository repo = new Repository())
                     {
                         // 同步到oracle库中，返回成功记录数
                         var countInsert = list.AsEnumerable().Insert();
 
                         // 获取最后记录的时间戳
-                        cam.LastSyncTime = list[0].PicTime;
+                        cam.LastSyncTime = list.Last().PicTime;
 
                         repo.Save(cam);
+
+                        CameraSource.Cache.RefreshCache();
 
                         // 记录成功日志
                         var msg = new
@@ -67,16 +68,16 @@ namespace Shsict.Peccacy.Service
             }
         }
 
-        private static List<TruckCamRecord> GetTruckRecordsByCamSource(CameraSource cam)
+        public static List<TruckCamRecord> GetTruckRecordsByCamSource(CameraSource cam)
         {
             IUserLog log = new UserLog();
 
             var list = new List<TruckCamRecord>();
 
-            var sql = $"SELECT * FROM {cam.ViewName} WHERE PICTIME > @pictime ORDER BY PICTIME DESC";
+            // access 时间字段查询需要在两边加上#，通过oledb parameter传入会报错
+            var sql = $"SELECT * FROM {cam.ViewName} WHERE PICTIME > #{cam.LastSyncTime}# ORDER BY PICTIME";
 
-            var ds = AccessHelper.ExecuteDataset(cam.ConnString, CommandType.Text, sql,
-                new OleDbParameter("@pictime", cam.LastSyncTime));
+            var ds = AccessHelper.ExecuteDataset(cam.ConnString, CommandType.Text, sql);
 
             if (ds.Tables[0].Rows.Count > 0)
             {
