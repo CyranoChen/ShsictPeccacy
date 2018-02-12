@@ -1,0 +1,29 @@
+﻿@using Shsict.Peccancy.Mvc.Models
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ConfigGlobal.Assembly.Product</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @Styles.Render("~/Content/css")
+    @RenderSection("Styles", false)
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        @Html.Partial("_HeaderPartial")
+        @Html.Partial("_SideBarPartial")
+        @RenderBody()
+        @Html.Partial("_FooterPartial")
+    </div>
+    <!-- ./wrapper -->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/adminlte")
+
+    @RenderSection("Scripts", false)
+</body>
+</html>
