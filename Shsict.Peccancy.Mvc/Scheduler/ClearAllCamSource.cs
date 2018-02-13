@@ -1,10 +1,11 @@
 ﻿using System;
+using Shsict.Peccancy.Mvc.Models;
 using Shsict.Peccancy.Service.Logger;
 using Shsict.Peccancy.Service.Scheduler;
 
 namespace Shsict.Peccancy.Mvc.Scheduler
 {
-    internal class SyncAllCamSource : ISchedule
+    internal class ClearAllCamSource : ISchedule
     {
         private readonly IAppLog _log = new AppLog();
 
@@ -12,13 +13,13 @@ namespace Shsict.Peccancy.Mvc.Scheduler
         {
             try
             {
-                Service.ServiceTruckRecord.SyncAllCameraSources();
+                Service.ServiceTruckRecord.ClearAllCameraSources(ConfigGlobal.TimeSpanLimit);
 
-                _log.Info("Scheduler executed: (SyncAllCamSource)");
+                _log.Info("Scheduler executed: (ClearAllCamSource)");
             }
             catch (Exception ex)
             {
-                _log.Warn("Scheduler failed: (SyncAllCamSource)");
+                _log.Warn("Scheduler failed: (ClearAllCamSource)");
                 _log.Error(ex);
             }
         }

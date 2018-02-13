@@ -92,6 +92,21 @@ namespace Shsict.Peccancy.Mvc.Models
             }
         }
 
+        public static int TimeSpanLimit
+        {
+            get
+            {
+                try
+                {
+                    return int.Parse(ConfigDictionary["TimeSpanLimit"]);
+                }
+                catch
+                {
+                    return 5;
+                }
+            }
+        }
+
         #endregion
     }
 }

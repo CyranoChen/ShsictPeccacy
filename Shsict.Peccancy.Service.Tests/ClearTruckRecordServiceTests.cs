@@ -5,16 +5,16 @@ using Shsict.Peccancy.Service.Model;
 namespace Shsict.Peccancy.Service.Tests
 {
     [TestClass()]
-    public class SyncTruckRecordServiceTests
+    public class ClearTruckRecordServiceTests
     {
         [TestMethod()]
-        public void SyncCameraSourceTest()
+        public void ClearCameraSourceTest()
         {
-            var cam = CameraSource.Cache.CameraSourceList.FirstOrDefault(x => x.IsSync);
+            var cam = CameraSource.Cache.CameraSourceList.FirstOrDefault(x => x.CamNo == "81#");
 
             if (cam != null)
             {
-                ServiceTruckRecord.SyncCameraSource(cam);
+                ServiceTruckRecord.ClearCameraSource(cam);
             }
         }
     }

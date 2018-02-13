@@ -71,9 +71,12 @@
                                                     <i class="fa fa-pencil"></i> 修改
                                                 </a>
                                                 <button type="button" class="btn btn-info btn-xs"
-                                                        onclick="if(confirm('手工同步【@m.CamNo】的数据?'))
-                                                        {window.location.href = '@Url.Action("Sync", "CameraSource", new {id = m.ID})';}">
+                                                        onclick="if(confirm('同步【@m.CamNo】的数据?')) {window.location.href = '@Url.Action("Sync", "CameraSource", new {id = m.ID})';}">
                                                     <i class="fa fa-gear"></i> 同步
+                                                </button>
+                                                <button type="button" class="btn btn-info btn-xs"
+                                                        onclick="if(confirm('清理【@m.CamNo】的数据?')) {window.location.href = '@Url.Action("Clear", "CameraSource", new {id = m.ID})';}">
+                                                    <i class="fa fa-recycle"></i> 清理
                                                 </button>
                                             </td>
                                         </tr>

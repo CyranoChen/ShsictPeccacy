@@ -77,7 +77,7 @@
     <Compile Include="Scheduler\ISchedule.cs" />
     <Compile Include="Scheduler\Schedule.cs" />
     <Compile Include="Scheduler\ScheduleManager.cs" />
-    <Compile Include="SyncTruckRecordService.cs" />
+    <Compile Include="ServiceTruckRecord.cs" />
     <Compile Include="Utility\Assembly.cs" />
     <Compile Include="Utility\Browser.cs" />
     <Compile Include="Model\Config.cs" />

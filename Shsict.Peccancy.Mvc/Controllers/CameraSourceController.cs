@@ -83,11 +83,32 @@ namespace Shsict.Peccancy.Mvc.Controllers
                     IUserLog log = new UserLog();
                     log.Info($"手动执行同步【{cam.CamNo}】的数据");
 
-                    Service.SyncTruckRecordService.SyncCameraSource(cam);
+                    Service.ServiceTruckRecord.SyncCameraSource(cam);
                 }
             }
 
             return RedirectToAction("Index", "CameraSource");
         }
+
+        // GET: CameraSource/Clear/5
+        // TODO refact to HTTP POST 
+        public ActionResult Clear(int id)
+        {
+            using (IRepository repo = new Repository())
+            {
+                var cam = repo.Single<CameraSource>(id);
+
+                if (cam != null)
+                {
+                    IUserLog log = new UserLog();
+                    log.Info($"手动清理【{cam.CamNo}】的冗余数据");
+
+                    Service.ServiceTruckRecord.ClearCameraSource(cam);
+                }
+            }
+
+            return RedirectToAction("Index", "CameraSource");
+        }
+
     }
 }

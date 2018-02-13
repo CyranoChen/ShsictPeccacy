@@ -137,6 +137,7 @@
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\ConsoleModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheduler\ClearAllCamSource.cs" />
     <Compile Include="Scheduler\SyncAllCamSource.cs" />
     <Compile Include="Scheduler\RefreshCache.cs" />
   </ItemGroup>
