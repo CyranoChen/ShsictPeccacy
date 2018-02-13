@@ -16,10 +16,10 @@ namespace Shsict.Peccancy.Mvc.Controllers
 
             using (IRepository repo = new Repository())
             {
-                // 非数据库操作日志（1天内）
-                var dateLower = DateTime.Now.AddDays(-1);
+                // 数据库业务操作日志与异常（7天内）
+                var dateLower = DateTime.Now.AddDays(-7);
                 model.Logs = repo.Query<Log>(x =>
-                    !x.Logger.Equals(nameof(DaoLog)) && x.CreateTime >= dateLower)
+                    (x.Logger.Equals(nameof(UserLog)) || x.IsException) && x.CreateTime >= dateLower)
                     .OrderByDescending(x => x.CreateTime).ToList();
 
             }

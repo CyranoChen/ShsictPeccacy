@@ -31,7 +31,7 @@
     <section class="content-header">
         <h1>
             <b><i class="fa fa-book"></i> 同步日志</b>
-            <small></small>
+            <small>显示7天内的自动/手动操作记录与异常日志</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> 管理控制台</a></li>
@@ -64,7 +64,10 @@
                                             <td>@m.Level.ToString()</td>
                                             <td>@m.CreateTime.ToString("yyyyMMdd HH:mm:ss")</td>
                                             <td>@m.Message </td>
-                                            <td>@m.IsException</td>
+                                            <td>
+                                                @if (m.IsException)
+                                                {@Html.Raw("<b>[异常]</b>")}
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>

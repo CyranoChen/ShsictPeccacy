@@ -107,6 +107,16 @@ namespace Shsict.Peccancy.Mvc.Models
             }
         }
 
+        public static string[] AdminEmail
+        {
+            get
+            {
+                var admins = ConfigDictionary["AdminEmail"];
+                return admins.Split('|');
+            }
+        }
+
+
         #endregion
     }
 }

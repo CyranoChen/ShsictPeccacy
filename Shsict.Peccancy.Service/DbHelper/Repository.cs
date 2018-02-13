@@ -116,6 +116,8 @@ namespace Shsict.Peccancy.Service.DbHelper
             return _db.SaveChanges();
         }
 
+        // TODO may caused some bugs of message as below
+        // The object cannot be deleted because it was not found in the ObjectStateManager
         public int Delete<T>(T[] instances) where T : class, IEntity
         {
             _db.Set<T>().RemoveRange(instances);

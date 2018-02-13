@@ -54,7 +54,7 @@
                                     <th>探头编号</th>
                                     <th>抓拍时间</th>
                                     <th>抓拍图片</th>
-                                    <th>操作</th>
+                                    <th style="display: none">操作</th>
                                 </tr>
                             </thead>
                             @if (Model.TruckCamRecords != null && Model.TruckCamRecords.Count > 0)
@@ -69,7 +69,7 @@
                                             <td>@m.CamNo </td>
                                             <td>@m.PicTime.ToString("yyyyMMdd HH:mm:ss")</td>
                                             <td>@m.PicName</td>
-                                            <td>
+                                            <td style="display: none">
                                                 <button type="button" class="btn btn-info btn-xs" disabled="disabled">
                                                     <i class="fa fa-edit"></i> detail
                                                 </button>

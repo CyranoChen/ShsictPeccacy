@@ -79,6 +79,7 @@
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="ClearTruckRecordServiceTests.cs" />
     <Compile Include="SyncTruckRecordServiceTests.cs" />
+    <Compile Include="EmailTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
