@@ -83,14 +83,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shsict.Peccancy.Mvc\Shsict.Peccancy.Mvc.csproj">
-      <Project>{92b9091c-da84-483c-a22f-2d5b24078806}</Project>
-      <Name>Shsict.Peccancy.Mvc</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Shsict.Peccancy.Service\Shsict.Peccancy.Service.csproj">
       <Project>{d5409dd4-2215-4b27-8489-2c3faff90919}</Project>
       <Name>Shsict.Peccancy.Service</Name>
