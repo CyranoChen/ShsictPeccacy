@@ -92,7 +92,7 @@ namespace Shsict.Peccancy.Mvc.Scheduler
             mail.Subject = subject;//邮件标题 
             mail.SubjectEncoding = System.Text.Encoding.UTF8;//邮件标题编码 
 
-            mail.Body = "以下内容为系统自动发送，请勿直接回复，谢谢。/r/n/r/n";//邮件内容 
+            mail.Body = "以下内容为系统自动发送，请勿直接回复，谢谢。\r\n\r\n";//邮件内容 
             mail.Body += logs.ToJson();
             mail.BodyEncoding = System.Text.Encoding.UTF8;//邮件内容编码 
 
