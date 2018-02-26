@@ -58,7 +58,7 @@ namespace Shsict.Peccancy.Mvc.Scheduler
                     }
 
                     var errorLogs = repo.Query<Log>(x => !x.Logger.Equals(nameof(DaoLog)) && x.CreateTime >= timeLower)
-                        .FindAll(x => x.Level.Equals(LogLevel.Warn))
+                        .FindAll(x => x.Level.Equals(LogLevel.Error) || x.Level.Equals(LogLevel.Fatal))
                         .OrderByDescending(x => x.CreateTime).ToList();
 
                     if (errorLogs.Count > 0)
