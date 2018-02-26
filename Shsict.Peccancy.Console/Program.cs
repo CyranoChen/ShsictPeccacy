@@ -14,37 +14,50 @@ namespace Shsict.Peccancy.Console
     {
         static void Main(string[] args)
         {
-            IAppLog log = new AppLog();
-
-            using (IRepository repo = new Repository())
+            try
             {
-                var schedulers = repo.All<Schedule>().FindAll(x => x.IsActive && x.Seconds > 0);
+                IAppLog log = new AppLog();
 
-                if (schedulers.Count > 0)
+                using (IRepository repo = new Repository())
                 {
-                    var warningScheduler =
-                        schedulers.FindAll(x => DateTime.Now > x.LastCompletedTime.AddSeconds(x.Seconds + 300));
+                    var schedulers = repo.All<Schedule>().FindAll(x => x.IsActive && x.Seconds > 0);
 
-                    if (warningScheduler.Count > 0)
+                    if (schedulers.Count > 0)
                     {
-                        var content = new StringBuilder();
-                        foreach (var s in warningScheduler)
-                        {
-                            content.Append(new
-                            {
-                                ScheduleName = s.ScheduleKey,
-                                LastCompletedTime = s.LastCompletedTime.ToString("yyyyMMdd HH:mm:ss"),
-                                Interval = s.Seconds
-                            }.ToJson());
-                            content.Append("/r/n");
-                        }
+                        var warningScheduler =
+                            schedulers.FindAll(x => DateTime.Now > x.LastCompletedTime.AddSeconds(x.Seconds + 300));
 
-                        SendEmail(ConfigGlobal.AdminEmail, "外集卡违章数据同步停止提醒", content.ToString());
+                        System.Console.WriteLine("Scheduler Warning Count: " + warningScheduler.Count);
+
+                        if (warningScheduler.Count > 0)
+                        {
+                            var content = new StringBuilder();
+                            foreach (var s in warningScheduler)
+                            {
+                                content.Append(new
+                                {
+                                    ScheduleName = s.ScheduleKey,
+                                    LastCompletedTime = s.LastCompletedTime.ToString("yyyyMMdd HH:mm:ss"),
+                                    Interval = s.Seconds
+                                }.ToJson());
+                                content.Append("\r\n");
+                            }
+
+                            System.Console.WriteLine(content.ToString());
+
+                            SendEmail(ConfigGlobal.AdminEmail, "外集卡违章数据同步停止提醒", content.ToString());
+
+                            log.Warn("Send the mail of Scheduler Stopping Reminder");
+                        }
                     }
                 }
-            }
 
-            log.Info("Examine Scheduler executed");
+                log.Info("Examine Scheduler executed");
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
         }
 
         private static void SendEmail(string[] to, string subject, string content)
@@ -68,7 +81,7 @@ namespace Shsict.Peccancy.Console
             mail.Subject = subject;//邮件标题 
             mail.SubjectEncoding = Encoding.UTF8;//邮件标题编码 
 
-            mail.Body = "以下内容为系统自动发送，请勿直接回复，谢谢。/r/n/r/n";//邮件内容 
+            mail.Body = "以下内容为系统自动发送，请勿直接回复，谢谢。\r\n\r\n";//邮件内容 
             mail.Body += content;
             mail.BodyEncoding = Encoding.UTF8;//邮件内容编码 
 
@@ -81,11 +94,11 @@ namespace Shsict.Peccancy.Console
                 Host = "lotus.shsict.com"
             };
 
-            object userState = mail;
+            //object userState = mail;
 
             try
             {
-                client.SendAsync(mail, userState);
+                client.Send(mail);
             }
             catch (SmtpException ex)
             {
