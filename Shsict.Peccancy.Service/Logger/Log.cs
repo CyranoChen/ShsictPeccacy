@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using Shsict.Peccancy.Service.DbHelper;
 using Shsict.Peccancy.Service.Model;
@@ -33,7 +34,7 @@ namespace Shsict.Peccancy.Service.Logger
 
         public static void Logging(string logger, LogLevel level, string message)
         {
-            var sql = $@"INSERT INTO {GetTableAttr<Log>().Name} 
+            var sql = $@"INSERT INTO {ConfigurationManager.AppSettings["Oracle.Schema.Owner"]}.{GetTableAttr<Log>().Name} 
                                (LOGGER, LOGLEVEL, CREATETIME, MESSAGE, ISEXCEPTION, STACKTRACE) 
                                VALUES (:logger, :logLevel, SYSDATE, :message, '0', :stackTrace)";
 
@@ -55,7 +56,7 @@ namespace Shsict.Peccancy.Service.Logger
 
         public static void Logging(string logger, LogLevel level, Exception ex)
         {
-            var sql = $@"INSERT INTO {GetTableAttr<Log>().Name} 
+            var sql = $@"INSERT INTO {ConfigurationManager.AppSettings["Oracle.Schema.Owner"]}.{GetTableAttr<Log>().Name} 
                                (LOGGER, LOGLEVEL, CREATETIME, MESSAGE, ISEXCEPTION, STACKTRACE) 
                                VALUES (:logger, :logLevel, SYSDATE, :message, '1', :stackTrace)";
 
