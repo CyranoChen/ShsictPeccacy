@@ -93,7 +93,7 @@ namespace Shsict.Peccancy.Service
                 // 获取当前摄像头的全部数据记录
                 using (IRepository repo = new Repository())
                 {
-                    var list = repo.Query<TruckCamRecord>(x => x.CamNo.Equals(cam.CamNo));
+                    var list = repo.Query<TruckCamRecord>(x => x.CamNo.Equals(cam.CamNo)).FindAll(x => !string.IsNullOrEmpty(x.License));
 
                     if (list.Count > 0)
                     {
