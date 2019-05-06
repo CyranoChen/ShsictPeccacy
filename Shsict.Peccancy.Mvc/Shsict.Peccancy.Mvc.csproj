@@ -211,8 +211,6 @@
     <Content Include="admin-lte\js\demo.js" />
     <Content Include="admin-lte\js\pages\dashboard.js" />
     <Content Include="admin-lte\js\pages\dashboard2.js" />
-    <Content Include="App_Data\ITCClient1.mdb" />
-    <Content Include="App_Data\ITCClient2.mdb" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -525,7 +523,9 @@
     <Content Include="Views\Shared\_HeaderPartial.cshtml" />
     <Content Include="Views\Shared\_SideBarPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

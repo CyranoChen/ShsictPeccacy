@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Shsict.Peccancy.Mvc.Models;
 using Shsict.Peccancy.Service.DbHelper;
@@ -15,7 +16,9 @@ namespace Shsict.Peccancy.Mvc.Controllers
 
             using (IRepository repo = new Repository())
             {
-                model.TruckCamRecords = repo.All<TruckCamRecord>()
+                // 违规集卡数据同步（6月内）
+                var dateLower = DateTime.Now.AddMonths(-6);
+                model.TruckCamRecords = repo.Query<TruckCamRecord>(x => x.PicTime >= dateLower)
                     .OrderByDescending(x => x.PicTime).ToList();
             }
 
