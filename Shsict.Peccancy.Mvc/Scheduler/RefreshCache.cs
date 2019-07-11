@@ -54,7 +54,7 @@ namespace Shsict.Peccancy.Mvc.Scheduler
                     if (warnLogs.Count > 0)
                     {
                         // 发现有warning日志, 发警告邮件
-                        SendEmail(ConfigGlobal.AdminEmail, "外集卡违章数据同步告警消息", warnLogs);
+                        SendEmail(ConfigGlobal.AdminEmail, "外集卡违章数据同步告警消息(app)", warnLogs);
                     }
 
                     var errorLogs = repo.Query<Log>(x => !x.Logger.Equals(nameof(DaoLog)) && x.CreateTime >= timeLower)
@@ -64,7 +64,7 @@ namespace Shsict.Peccancy.Mvc.Scheduler
                     if (errorLogs.Count > 0)
                     {
                         // 发现有error日志，发异常邮件
-                        SendEmail(ConfigGlobal.AdminEmail, "外集卡违章数据同步异常提醒", errorLogs);
+                        SendEmail(ConfigGlobal.AdminEmail, "外集卡违章数据同步异常提醒(app)", errorLogs);
                     }
                 }
             }

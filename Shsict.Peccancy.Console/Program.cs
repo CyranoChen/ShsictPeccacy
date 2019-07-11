@@ -45,7 +45,7 @@ namespace Shsict.Peccancy.Console
 
                             System.Console.WriteLine(content.ToString());
 
-                            SendEmail(ConfigGlobal.AdminEmail, "外集卡违章数据同步停止提醒", content.ToString());
+                            SendEmail(ConfigGlobal.AdminEmail, "外集卡违章数据同步停止提醒(winsrv)", content.ToString());
 
                             log.Warn("Send the mail of Scheduler Stopping Reminder");
                         }
